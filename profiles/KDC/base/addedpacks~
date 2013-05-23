@@ -1,0 +1,17 @@
+#Add packages to be install here
+#Base Packages
+base
+fuse
+autofs
+nss_ldap
+pam_ldap
+nfs-utils
+ntp
+aufs3
+aufs3-util
+mkinitcpio
+mkinitcpio-nfs-utils
+net-tools
+
+krb5
+

@@ -1,0 +1,15 @@
+#Base Packages
+base
+fuse
+autofs
+#nss_ldap
+pam-krb5
+nfs-utils
+ntp
+aufs3
+aufs3-util
+mkinitcpio
+mkinitcpio-nfs-utils
+net-tools
+wireless_tools
+

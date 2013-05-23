@@ -1,0 +1,33 @@
+run_hook ()
+{
+    if [ -z "${device}" ]; then
+        device="eth0"
+    fi
+    #Sets up networking
+    if [ -z "${wireless}" ]; then
+        #Sets wireless to open if no key specified
+        if [ -z "${WirelessKey}" ]; then
+            WirelessKey="open"
+        fi
+        /sbin/iwconfig ${device} essid ${ESSID} key ${WirelessKey}
+    else
+        /sbin/ifconfig ${device} up
+    fi
+    FileToLoad=${httpfs##*/}
+    FileType=${FileToLoad##*.}
+    if [ "$FileType" != "squashfs" | "$FileType" != "iso" ]; then
+        FileType="squashfs"
+    fi
+    mount_handler="httpfs_mount_handler"
+}
+
+httpfs_mount_handler ()
+{
+    /bin/mkdir -p /mnt/fatsquash
+    httpfs2 ${httpfs} /mnt/fatsquash
+    mount /mnt/fatsquash/$FileToLoad "$1" -t $FileType -o ro,loop
+    mount --move /mnt/fatsquash $1/mnt/fatsquash
+    /bin/mount -t tmpfs -o size=5M,mode=0755,nosuid tmpfs /var
+    cp -r $1/var/* /var
+    mount --move /var $1/var
+}

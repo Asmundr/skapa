@@ -1,0 +1,5 @@
+##Default Modules to load##
+BuildPath="$ProgPath/build/$Profile"
+InstallLocation="$ProgPath/install/$Profile"        #Location must exist, will not be created
+defaultModules="base graphics-generic mediacenter"
+
