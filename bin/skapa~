@@ -1,0 +1,130 @@
+#!/bin/bash
+#Skapa v1.0
+
+#Main Start
+
+. ../config
+. skapa.func
+
+#skapa build profilename/all
+#skapa upgrade profilename/all
+#skapa install profilename/all
+#skapa add profilename[/module]
+#skapa del profilename[/module]
+
+LaunchOpts="$@"
+CurDate=`date`
+
+case "${1}" in
+    build)
+        case "${2}" in
+            all)
+                #Build all Profiles
+                DisplayGreet
+                InitiateLog
+                Profiles=$(ls $ProgPath/profiles/)
+                nbmsg "${hilight_color} + ${text_color}Starting Build Process for ${hilight_color}${Profiles}${text_color}...${reset_color}"
+                for profile in $Profiles; do
+                    BuildProfile $profile
+                done
+                ;;
+            ask)
+                #Ask for profiles to use
+                DisplayGreet
+                InitiateLog
+                Options=$(for x in `ls $ProgPath/profiles/`;do echo "TRUE $x";done)
+                Profiles=$(zenity --list --checklist --column="-" --column="Profiles" ${Options}|sed 's/|/ /g')
+                nbmsg "${hilight_color} + ${text_color}Starting Build Process for ${hilight_color}${Profiles}${text_color}...${reset_color}"
+                for profile in $Profiles; do
+                    BuildProfile $profile
+                done
+                ;;
+            *)
+                #Build profiles
+                DisplayGreet
+                InitiateLog
+                Profiles=$2
+                nbmsg "${hilight_color} + ${text_color}Starting Build Process for ${hilight_color}${2}${text_color}...${reset_color}"
+                for profile in $Profiles; do
+                    BuildProfile $profile
+                done
+                ;;
+        esac
+        ;;
+
+    upgrade)
+        case "${2}" in
+            all)
+                #Upgrade all Profiles
+                InitiateLog
+                Profiles=$(ls $ProgPath/profiles/)
+                for profile in $Profiles; do
+                    UpgradeProfile $profile
+                done
+                ;;
+            ask)
+                #Ask for profiles to use
+                InitiateLog
+                Options=$(for x in `ls $ProgPath/profiles/`;do echo "TRUE $x";done)
+                Profiles=$(zenity --list --checklist --column="-" --column="Profiles" ${Options}|sed 's/|/ /g')
+                for profile in $Profiles; do
+                    UpgradeProfile $profile
+                done
+                ;;
+            *)
+                #Upgrade profiles
+                InitiateLog
+                Profiles=$(ls $ProgPath/profiles/)
+                for profile in $Profiles; do
+                    UpgradeProfile $profile
+                done
+                ;;
+        esac
+        ;;
+
+    install)
+        case "${2}" in
+            all)
+                #Install all Profiles
+                InitiateLog
+                Profiles=$(ls $ProgPath/profiles/)
+                for profile in $Profiles; do
+                    InstallProfile $profile
+                done
+                ;;
+            ask)
+                #Ask for profiles to use
+                InitiateLog
+                Options=$(for x in `ls $ProgPath/profiles/`;do echo "TRUE $x";done)
+                Profiles=$(zenity --list --checklist --column="-" --column="Profiles" ${Options}|sed 's/|/ /g')
+                for profile in $Profiles; do
+                    InstallProfile $profile
+                done
+                ;;
+            *)
+                #Install profiles
+                InitiateLog
+                Profiles=$(ls $ProgPath/profiles/)
+                for profile in $Profiles; do
+                    InstallProfile $profile
+                done
+                ;;
+        esac
+        ;;
+
+    add)
+        #Create new profile
+        ;;
+
+    del)
+        #Remove a profile
+        ;;
+
+    help)
+        DisplayHelp
+        ;;
+    *)
+        DisplayHelp
+        ;;
+esac
+

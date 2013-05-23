@@ -1,0 +1,12 @@
+#Skapa v1.0
+
+#Set Variables
+ProgPath="/home/torp/Skapa"
+Profiles="Client KDC Server"
+PacmanBin="/usr/bin/pacman-color"
+LogPath="${ProgPath}/log"
+LogFile="${LogPath}/skapa.log"
+PacmanConfig="/etc/pacman.conf"
+
+AddPacman="y"
+
